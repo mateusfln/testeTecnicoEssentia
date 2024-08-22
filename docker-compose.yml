@@ -2,7 +2,7 @@ version: '3'
 services:
   web:
     image: nginx:latest
-    container_name: nginx
+    container_name: nginx-essentia
     restart: always
     ports:
       - "84:80"
@@ -16,7 +16,7 @@ services:
     image: mysql:5.7
     volumes:
     - /var/lib/mysql
-    container_name: mysql
+    container_name: mysql-essentia
     ports:
     - "3366:3366"
     command: --default-authentication-plugin=mysql_native_password
@@ -26,6 +26,6 @@ services:
       MYSQL_DATABASE: crud_clientes_essentia
   php:
     build: .
-    container_name: php-fpm
+    container_name: php-fpm-essentia
     volumes:
     - ./www:/www
