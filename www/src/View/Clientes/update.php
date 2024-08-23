@@ -29,7 +29,7 @@ require_once __DIR__.'/components/head.php'
     ?>
 <div class="card p-4 shadow-sm ">
 <form id="form-edit-cliente" method="post" enctype="multipart/form-data">
-
+  <input type="hidden" name="ds_urlfoto" value="<?= $cliente->getUrlfoto()?>">
       <div class="row">
         <div class="col-4 mb-3">
           <label for="Nome" class="form-label">Nome:</label>

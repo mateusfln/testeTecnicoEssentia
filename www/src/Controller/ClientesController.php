@@ -20,7 +20,10 @@ class ClientesController
     {
         $msgFeedback = [];
         if ($this->allRequiredFieldsAreFilled()) {
-            $_POST['ds_urlfoto'] = $this->getMedia();
+            $_POST['ds_urlfoto'] = "";
+            if(!empty($_FILES['image']['name'])){
+                $_POST['ds_urlfoto'] = $this->getMedia();
+            }
             $arrFeedback = $this->model->insert();
             if ($arrFeedback[0]) {
                 header('Location: index.php');
@@ -42,8 +45,8 @@ class ClientesController
     {
         $msgFeedback = [];
         if ($this->allRequiredFieldsAreFilled()) {
-            $this->deleteMedia($_GET['id']);
-            if(empty($_POST['ds_urlfoto'])){
+            if(!empty($_FILES['image']['name'])){
+                $this->deleteMedia($_GET['id']);
                 $_POST['ds_urlfoto'] = $this->getMedia();
             }
             $arrFeedback = $this->model->edit($_GET['id']);
@@ -71,7 +74,7 @@ class ClientesController
 
     private function getMedia()
     {
-        if (isset($_FILES['image'])){
+        if (isset($_FILES['image']['name'])){
             $file = $_FILES['image'];
 
             if($file['error']){
@@ -104,7 +107,7 @@ class ClientesController
         $path = __DIR__.'/../../'.$dadosMidia->getUrlfoto();
         
         if(file_exists($path)){
-            unlink($path);
+            @unlink($path);
         }
     }
 

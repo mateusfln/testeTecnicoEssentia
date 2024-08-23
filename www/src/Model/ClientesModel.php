@@ -221,9 +221,9 @@ class ClientesModel
     private function validaEmail($email): bool 
     {
         $conta = "/^[a-zA-Z0-9\._-]+@";
-        $domino = "[a-zA-Z0-9\._-]+.";
+        $dominio = "[a-zA-Z0-9\._-]+.";
         $extensao = "([a-zA-Z]{2,4})$/";
-        $pattern = $conta.$domino.$extensao;
+        $pattern = $conta.$dominio.$extensao;
         if (preg_match($pattern, $email, $check))
           return true;
         else
