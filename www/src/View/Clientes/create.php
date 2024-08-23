@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 
-<?php 
-$title = 'Adicionar';
-require_once __DIR__.'/components/head.php' 
-?>
+<?= require_once __DIR__.'/components/head.php' ?>
 
 <body>
   
@@ -26,7 +23,7 @@ require_once __DIR__.'/components/head.php'
     }
     ?>
 <div class="card p-4 shadow-sm ">
-<form id="form-create-funcionario" action="index.php?a=create" method="post" enctype="multipart/form-data">
+<form id="form-create-funcionario" action="index.php?a=create" method="post">
 
       <div class="row">
         <div class="col-4 mb-3">
@@ -49,14 +46,6 @@ require_once __DIR__.'/components/head.php'
           <input required maxlength="255" type="email" class="form-control" id="Email" name="ds_email" placeholder="Digite o Email do funcionario" value="<?= $_POST['ds_email'] ?? ''?>">
         </div>
         <div class="col-6 mb-3">
-          <label for="Number" class="form-label">Telefone:</label>
-          <input required maxlength="255" type="number" class="form-control" id="ds_telefone" name="ds_telefone" placeholder="Digite o seu numero de telefone" value="<?= $_POST['ds_telefone'] ?? ''?>">
-        </div>
-        <div class="col-6 mb-3">
-          <label for="image" class="form-label">Foto de perfil:</label>
-          <input type="file" class="form-control" id="image" name="image" placeholder="Escolha sua foto de perfil">
-        </div>
-        <div class="col-6 mb-3">
           <label for="estado-civil" class="form-label">Estado civil:</label>
           <select class="form-select" id="estado-civil" name="estadocivil_id">
           <?php foreach($arrEstadocivil as $estadocivil): 
@@ -72,6 +61,6 @@ require_once __DIR__.'/components/head.php'
     </form>
 </div>
 </div>
-<?php require_once __DIR__.'/components/scripts.php' ?>
+<?= require_once __DIR__.'/components/head.php' ?>
 </body>
 </html>
