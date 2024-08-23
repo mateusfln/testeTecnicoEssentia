@@ -51,6 +51,9 @@ class ClientesModel
                 $cliente->setEstadoCivil($row['ds_estadocivil']);
                 $clientes[] = $cliente;
             }
+            // echo '<pre>';
+            // print_r($clientes);
+            // die;
             return $clientes;
 
         } catch (Exception $e) {
@@ -65,9 +68,9 @@ class ClientesModel
         try {
             $_POST['estadocivil_id'] = (int)$_POST['estadocivil_id'];
             $this->conn
-                ->getConnection()
-                ->exec(
-                    "INSERT INTO {$this->table} 
+            ->getConnection()
+            ->exec(
+                "INSERT INTO {$this->table} 
                     (
                     estadocivil_id,
                     ds_nome, 
@@ -86,7 +89,6 @@ class ClientesModel
                     '{$_POST['ds_urlfoto']}'
                     )"
                 );
-
                 return [true, ''];
         } catch (Exception $e) {
             return [false, $e->getMessage()];
@@ -126,8 +128,10 @@ class ClientesModel
                 ds_nome = '{$_POST['ds_nome']}', 
                 dt_nascimento = '{$_POST['dt_nascimento']}', 
                 ds_cpf = '{$_POST['ds_cpf']}', 
-                ds_email = '{$_POST['ds_email']}'
-                WHERE id = {$id}
+                ds_email = '{$_POST['ds_email']}',
+                ds_telefone = '{$_POST['ds_telefone']}',
+                ds_urlfoto = '{$_POST['ds_urlfoto']}'
+                WHERE id = {$id};
                 "
                 )->fetch(PDO::FETCH_ASSOC);
 
@@ -226,7 +230,7 @@ class ClientesModel
           return false;
       }
 
-    private function validarCpfEmail(String $cpf, String $email): array|null
+    private function validarCpfEmail(String $cpf, String $email)
     {
         if (!$this->validaCPF($cpf)) {
             return [false, 'ds_cpf'];
