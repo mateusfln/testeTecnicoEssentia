@@ -160,7 +160,7 @@ class ClientesModel
 
     }
 
-    public function findById(int $id): Cliente
+    public function findById(int $id)
     {
         try {
             $query = $this->conn->getConnection()

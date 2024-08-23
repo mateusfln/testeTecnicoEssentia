@@ -42,10 +42,10 @@ class ClientesController
     {
         $msgFeedback = [];
         if (isset($_POST['ds_nome']) && isset($_POST['dt_nascimento']) && isset($_POST['ds_cpf']) && isset($_POST['ds_email']) && isset($_POST['ds_telefone']) && isset($_POST['estadocivil_id'])) {
+            $this->deleteMedia($_GET['id']);
             if(empty($_POST['ds_urlfoto'])){
                 $_POST['ds_urlfoto'] = $this->getMedia();
             }
-            // $this->deleteMedia($_GET['id']);
             $arrFeedback = $this->model->edit($_GET['id']);
             if ($arrFeedback[0]) {
                 $msgFeedbackOk = 'success';
