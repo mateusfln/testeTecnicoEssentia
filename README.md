@@ -67,6 +67,13 @@ http://essentia.localhost:84
 
 ```
 
+*8.1. caso ocorra um erro que impede o arquivo de ser movido:
+
+```
+cd public
+chmod 777 images
+```
+
 ## Estrutura do Projeto
 
 A estrutura do projeto está organizada da seguinte forma:
