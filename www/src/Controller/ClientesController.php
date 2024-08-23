@@ -19,7 +19,7 @@ class ClientesController
     public function create()
     {
         $msgFeedback = [];
-        if (isset($_POST['ds_nome']) && isset($_POST['dt_nascimento']) && isset($_POST['ds_cpf']) && isset($_POST['ds_email']) && isset($_POST['ds_telefone']) && isset($_POST['estadocivil_id'])) {
+        if ($this->allRequiredFieldsAreFilled()) {
             $_POST['ds_urlfoto'] = $this->getMedia();
             $arrFeedback = $this->model->insert();
             if ($arrFeedback[0]) {
@@ -41,7 +41,7 @@ class ClientesController
     public function update()
     {
         $msgFeedback = [];
-        if (isset($_POST['ds_nome']) && isset($_POST['dt_nascimento']) && isset($_POST['ds_cpf']) && isset($_POST['ds_email']) && isset($_POST['ds_telefone']) && isset($_POST['estadocivil_id'])) {
+        if ($this->allRequiredFieldsAreFilled()) {
             $this->deleteMedia($_GET['id']);
             if(empty($_POST['ds_urlfoto'])){
                 $_POST['ds_urlfoto'] = $this->getMedia();
@@ -72,27 +72,26 @@ class ClientesController
     private function getMedia()
     {
         if (isset($_FILES['image'])){
-            $arquivo = $_FILES['image'];
-            
-            
-            if($arquivo['error']){
-                echo('Falha ao enviar o arquivo');
+            $file = $_FILES['image'];
+
+            if($file['error']){
+                echo('Falha ao enviar o file');
             }
 
-            if($arquivo['size'] > 2097152){
-                echo('Arquivo maior que o limite máximo de tamanho (2Mb)');
+            if($file['size'] > 2097152){
+                echo('file maior que o limite máximo de tamanho (2Mb)');
             }
             
-            $pasta = "public/images/";
-            $nomeDoArquivo = $arquivo['name'];
-            $nomeDoArquivo = uniqid();
-            $extensao = strtolower(pathinfo($arquivo['name'], PATHINFO_EXTENSION));
-            $path = $pasta.$nomeDoArquivo.".".$extensao;
+            $folder = "public/images/";
+            $nameOfFile = $file['name'];
+            $nameOfFile = uniqid();
+            $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+            $path = $folder.$nameOfFile.".".$extension;
             
-            if($extensao != 'jpg' && $extensao != 'png'){
-                echo('Tipo de arquivo não aceito');
+            if($extension != 'jpg' && $extension != 'png'){
+                echo('Tipo de file não aceito');
             }else{
-                move_uploaded_file($arquivo['tmp_name'], $path);
+                move_uploaded_file($file['tmp_name'], $path);
                 return $path;
             }
         }
@@ -107,5 +106,13 @@ class ClientesController
         if(file_exists($path)){
             unlink($path);
         }
+    }
+
+    private function allRequiredFieldsAreFilled():bool
+    {
+        if(isset($_POST['ds_nome']) && isset($_POST['dt_nascimento']) && isset($_POST['ds_cpf']) && isset($_POST['ds_email']) && isset($_POST['ds_telefone']) && isset($_POST['estadocivil_id'])) {
+            return true;
+        }
+        return false;
     }
 }
