@@ -1,15 +1,15 @@
-# Teste Técnico Desenvolvedor Php Jr Dígitro - CRUD de Funcionários
+# Teste Técnico Desenvolvedor Php Essentia - CRUD de Clientes
 
-Este é um teste técnico proposto pela Digitro para avaliar conhecimentos e habilidades no desenvolvimento de uma aplicação web CRUD (Create, Read, Update, Delete) de funcionários utilizando PHP, MySQL e Docker.
+Este é um teste técnico proposto pela Essentia para avaliar conhecimentos e habilidades no desenvolvimento de uma aplicação web CRUD (Create, Read, Update, Delete) de Clientes.
 
 ## Descrição do Projeto
 
-O objetivo deste projeto é criar uma aplicação web que permita gerenciar informações de funcionários, incluindo nome, cpf, email, data de nascimento e estado civil. A aplicação deve oferecer as seguintes funcionalidades:
+O objetivo deste projeto é criar uma aplicação web que permita gerenciar informações de clientes, incluindo nome, cpf, email, número de telefone, foto, data de nascimento e estado civil. A aplicação deve oferecer as seguintes funcionalidades:
 
-- Cadastrar um novo funcionário.
-- Visualizar a lista de funcionários cadastrados.
-- Editar as informações de um funcionário existente.
-- Excluir um funcionário da base de dados.
+- Cadastrar um novo cliente.
+- Visualizar a lista de clientes cadastrados.
+- Editar as informações de um cliente existente.
+- Excluir um cliente da base de dados.
 
 ## Tecnologias Utilizadas
 
@@ -24,13 +24,13 @@ O objetivo deste projeto é criar uma aplicação web que permita gerenciar info
 2. Clone este repositório em sua máquina local:
 
 ```
-git clone https://github.com/mateusfln/crud-digitro.git
+git clone https://github.com/mateusfln/testeTecnicoEssentia.git
 ```
 
 3. Navegue até o diretório do projeto:
 
 ```
-cd crud-digitro
+cd testeTecnicoEssentia
 ```
 
 4. Inicie os contêineres Docker:
@@ -56,14 +56,14 @@ composer update
 
 
 ```
-http://crud-digitro.localhost:84/setup.php
+http://essentia.localhost:84/setup.php
 
 ```
 
 8. Acesse o endereço:
 
 ```
-http://crud-digitro.localhost:84
+http://essentia.localhost:84
 
 ```
 
@@ -74,6 +74,7 @@ A estrutura do projeto está organizada da seguinte forma:
 ```
 /
 |-- www/
+|   |-- public/images
 |   |-- src/
 |      |-- config/
 |      |-- Controller/
@@ -84,6 +85,7 @@ A estrutura do projeto está organizada da seguinte forma:
 |-- site.conf
 ```
 - **www/**: Diretório mapeado no Nginx para conter o projeto e disponibilizar na web).
+- **public/images/**: Diretório utilizado para salvar os arquivos de imagens dos clientes).
 - **src/**: Diretório contendo os arquivos PHP da aplicação organizados utilizando a arquitetura MVC (Model, View, Controler).
 - **docker-compose.yml**: Arquivo de configuração do Docker Compose para criar e gerenciar os contêineres da aplicação.
 - **Dockerfile**: Arquivo utilizado para sobrescrever uma imagem ja existente e instalar algumas dependencias necessárias.
