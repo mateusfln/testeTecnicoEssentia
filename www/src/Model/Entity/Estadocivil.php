@@ -2,7 +2,9 @@
 
 namespace App\Model\Entity;
 
-class Estadocivil
+use App\Model\Entity\Interfaces\EntityInterface;
+
+class Estadocivil implements EntityInterface
 {
     private int $id;
 

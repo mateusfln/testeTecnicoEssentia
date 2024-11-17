@@ -2,24 +2,29 @@
 
 namespace App\Controller;
 
-use App\Model\EstadocivilModel;
-use App\Model\ClientesModel;
+use App\Model\Entity\Cliente;
+use App\Model\Entity\Imagem;
+use App\Model\Interfaces\ClientesModelInterface;
+use App\Model\Interfaces\EstadocivilModelInterface;
 
 class ClientesController
 {
-    private ClientesModel $model;
-    private EstadocivilModel $estadocivilModel;
+    private ClientesModelInterface $model;
+    private EstadocivilModelInterface $estadocivilModel;
+    private Cliente $entity;
 
-    public function __construct()
+    public function __construct(ClientesModelInterface $clientesModel, EstadocivilModelInterface $estadoCivilModel, Cliente $clienteEntity)
     {
-        $this->model = new ClientesModel();
-        $this->estadocivilModel = new EstadocivilModel();
+        $this->model = $clientesModel;
+        $this->entity = $clienteEntity;
+        $this->estadocivilModel = $estadoCivilModel;
     }
 
     public function create()
     {
         $msgFeedback = [];
-        if ($this->allRequiredFieldsAreFilled()) {
+        
+        if ($this->allRequiredFieldsAreFilled($this->entity->getRequiredFields())) {
             $_POST['ds_urlfoto'] = "";
             if(!empty($_FILES['image']['name'])){
                 $_POST['ds_urlfoto'] = $this->getMedia();
@@ -32,19 +37,21 @@ class ClientesController
             }
         }
         $arrEstadocivil = $this->estadocivilModel->findAll();
+        compact('arrEstadocivil', 'msgFeedback');
         require "src/View/Clientes/create.php";
     }
 
     public function index()
     {   
         $clientes = $this->model->findAll();
+        compact('clientes');
         require "src/View/Clientes/index.php";
     }
 
     public function update()
     {
         $msgFeedback = [];
-        if ($this->allRequiredFieldsAreFilled()) {
+        if ($this->allRequiredFieldsAreFilled($this->entity->getRequiredFields())) {
             if(!empty($_FILES['image']['name'])){
                 $this->deleteMedia($_GET['id']);
                 $_POST['ds_urlfoto'] = $this->getMedia();
@@ -72,34 +79,18 @@ class ClientesController
         require "src/View/Clientes/index.php";
     }
 
-    private function getMedia()
+    private function getMedia(): string
     {
-        if (isset($_FILES['image']['name'])){
-            $file = $_FILES['image'];
-
-            if($file['error']){
-                echo('Falha ao enviar o file');
-            }
-
-            if($file['size'] > 2097152){
-                echo('file maior que o limite máximo de tamanho (2Mb)');
-            }
-            
-            $folder = "public/images/";
-            $nameOfFile = $file['name'];
-            $nameOfFile = uniqid();
-            $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-            $path = $folder.$nameOfFile.".".$extension;
-            
-            if($extension != 'jpg' && $extension != 'png'){
-                echo('Tipo de file não aceito');
-            }else{
-                move_uploaded_file($file['tmp_name'], $path);
-                return $path;
-            }
-        }
+        $image = new Imagem();
+        $image->validate(
+            $_FILES['image']['name'], 
+            $_FILES['image']['error'], 
+            $_FILES['image']['size'], 
+            $_FILES['image']['tmp_name']
+        );
+        return $image->getFullPath();
     }
-
+    
     private function deleteMedia($id)
     {
         $dadosMidia = $this->model->read($id);
@@ -107,15 +98,17 @@ class ClientesController
         $path = __DIR__.'/../../'.$dadosMidia->getUrlfoto();
         
         if(file_exists($path)){
-            @unlink($path);
+            unlink($path);
         }
     }
 
-    private function allRequiredFieldsAreFilled():bool
+    private function allRequiredFieldsAreFilled(array $requiredFields): bool
     {
-        if(isset($_POST['ds_nome']) && isset($_POST['dt_nascimento']) && isset($_POST['ds_cpf']) && isset($_POST['ds_email']) && isset($_POST['ds_telefone']) && isset($_POST['estadocivil_id'])) {
-            return true;
+        foreach($requiredFields as $field){
+            if(!isset($_POST[$field])){
+                return false;
+            }
         }
-        return false;
+        return true;
     }
 }

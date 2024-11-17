@@ -3,10 +3,11 @@ namespace App\Model;
 
 use App\Model\Database;
 use App\Model\Entity\Cliente;
+use App\Model\Interfaces\ClientesModelInterface;
 use Exception;
 use PDO;
 
-class ClientesModel
+class ClientesModel implements ClientesModelInterface
 {
 
     private string $table;
@@ -51,9 +52,6 @@ class ClientesModel
                 $cliente->setEstadoCivil($row['ds_estadocivil']);
                 $clientes[] = $cliente;
             }
-            // echo '<pre>';
-            // print_r($clientes);
-            // die;
             return $clientes;
 
         } catch (Exception $e) {
@@ -87,7 +85,8 @@ class ClientesModel
                     '{$_POST['ds_email']}', 
                     '{$_POST['ds_telefone']}', 
                     '{$_POST['ds_urlfoto']}'
-                    )"
+                    );
+                    "
                 );
                 return [true, ''];
         } catch (Exception $e) {

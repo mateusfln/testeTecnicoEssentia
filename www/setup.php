@@ -23,11 +23,17 @@ $conn->getConnection()->exec(
     CREATE TABLE estado_civil (
         id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
         ds_estadocivil VARCHAR(255) NOT NULL
-        );");
+        );
+        
+    CREATE TABLE imagem (
+        id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+        ds_path VARCHAR(255) NOT NULL
+        );"
+    );
 
 $conn->getConnection()->exec(
     "INSERT INTO estado_civil 
-    (ds_estadocivil) 
+    (ds_estadocivil)
     VALUES
         ('Casado'), 
         ('Solteiro'), 

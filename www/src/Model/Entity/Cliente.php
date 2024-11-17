@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Model\Entity;
-use DateTime;
-class Cliente
-{
 
+use App\Model\Entity\Interfaces\EntityInterface;
+use DateTime;
+
+class Cliente implements EntityInterface
+{
     private int $id;
+    
     private string $ds_nome;
 
     private \DateTime $dt_nascimento;
@@ -18,10 +21,21 @@ class Cliente
     
     private string $ds_urlfoto;
     
+    private Imagem $image;
+    
     private string $ds_estadocivil;
 
+    private array $requiredFields = [
+        'ds_nome', 
+        'dt_nascimento',
+        'ds_cpf',
+        'dt_nascimento',
+        'ds_email',
+        'ds_telefone',
+        'estadocivil_id',
+    ];
 
-    public function __construct(int $id = 1, string $ds_nome = "", DateTime $dt_nascimento = new DateTime(""), string $ds_cpf = "", string $ds_email = "", string $ds_telefone = "", string $ds_urlfoto = "", string $ds_estadocivil = "")
+    public function __construct(int $id = 1, string $ds_nome = "", DateTime $dt_nascimento = new DateTime(""), string $ds_cpf = "", string $ds_email = "", string $ds_telefone = "", string $ds_estadocivil = "")
     {
         $this->id = $id;
         $this->ds_nome = $ds_nome;
@@ -29,12 +43,10 @@ class Cliente
         $this->ds_cpf = $ds_cpf;
         $this->ds_email = $ds_email;
         $this->ds_telefone = $ds_telefone;
-        $this->ds_urlfoto = $ds_urlfoto;
         $this->ds_estadocivil = $ds_estadocivil;
     }
 
-    
-    public function setId($id): void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
@@ -110,17 +122,22 @@ class Cliente
         return $this->ds_estadocivil;
     }
 
+    public function getRequiredFields()
+    {
+        return $this->requiredFields;
+    }
+
     public function hydrate(array $dados): Cliente 
     {
-        $Clientes = new Cliente();
-        $Clientes->setNome($dados['ds_nome'] ?? '');
-        $Clientes->setDataDeNascimento(new DateTime($dados['dt_nascimento']) ?? '');
-        $Clientes->setCpf($dados['ds_cpf'] ?? '');
-        $Clientes->setEmail($dados['ds_email'] ?? '');
-        $Clientes->setTelefone($dados['ds_telefone'] ?? '');
-        $Clientes->setUrlfoto($dados['ds_urlfoto'] ?? '');
-        $Clientes->setEstadoCivil($dados['ds_estadocivil'] ?? '');
+        $clientes = new Cliente();
+        $clientes->setNome($dados['ds_nome'] ?? '');
+        $clientes->setDataDeNascimento(new DateTime($dados['dt_nascimento']) ?? '');
+        $clientes->setCpf($dados['ds_cpf'] ?? '');
+        $clientes->setEmail($dados['ds_email'] ?? '');
+        $clientes->setTelefone($dados['ds_telefone'] ?? '');
+        $clientes->setUrlfoto($dados['ds_urlfoto'] ?? '');
+        $clientes->setEstadoCivil($dados['ds_estadocivil'] ?? '');
 
-        return $Clientes;
+        return $clientes;
     }
 }

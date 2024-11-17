@@ -3,10 +3,11 @@ namespace App\Model;
 
 use App\Model\Database;
 use App\Model\Entity\Estadocivil;
+use App\Model\Interfaces\EstadocivilModelInterface;
 use Exception;
 use PDO;
 
-class EstadocivilModel
+class EstadocivilModel implements EstadocivilModelInterface
 {
 
     private string $table;
